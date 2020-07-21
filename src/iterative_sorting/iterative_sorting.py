@@ -21,17 +21,46 @@ def selection_sort(arr):
 # TO-DO:  implement the Bubble Sort function below
 def bubble_sort(arr):
     # Your code here
-    for i in range(len(arr)):
-        sorted = True
-        for j in range(len(arr) - i - 1):
-            if arr[j] > arr[j + 1]:
-                arr[j], arr[j + 1] = arr[j + 1], arr[j]
-                sorted = False
+    swaps_occured = True
 
-        if sorted:
-            break
+    while swaps_occured:
+        swaps_occured = False
+        for i in range(len(arr) - 1):
+            if arr[i] > arr[i + 1]:
+                arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                swaps_occured = True
 
     return arr
+
+    # for i in range(len(arr)):
+    #     sorted = True
+    #     for j in range(len(arr) - i - 1):
+    #         if arr[j] > arr[j + 1]:
+    #             arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    #             sorted = False
+
+    #     if sorted:
+    #         break
+
+    # return arr
+
+def recursive_bubble_sort(arr, unsorted_length):
+
+    for i in range(unsorted_length - 1):
+        if arr[i] > arr[i + 1]:
+            arr[i], arr[i + 1] = arr[i + 1], arr[i]
+
+    if unsorted_length > 1:
+        recursive_bubble_sort(arr, unsorted_length - 1)
+    return arr
+arr = [13, 154, 1, 6, 3, 7, 8, 5, 300, 64]
+print(recursive_bubble_sort(arr, len(arr)))
+
+# def rbs(arr):
+#     if len(arr) > 0:
+#         return rbs(arr[:len(arr) - 1])
+
+#     for i in range
 
 '''
 STRETCH: implement the Counting Sort function below
@@ -55,8 +84,12 @@ def counting_sort(arr, maximum=None):
     if maximum:
         buckets = [0 for i in range(maximum + 1)]
     else:
-        buckets = [0 for i in range(len(arr) + 1)]
-    # add a counter to buckets that coincides with array
+        if len(arr) > 0:
+            maximum = max(arr)
+            buckets = [0 for i in range(maximum + 1)]
+        else:
+            buckets = [0 for i in range(len(arr) + 1)]
+    
     for i in arr:
         if i < 0:
             return "Error, negative numbers not allowed in Count Sort"
@@ -71,10 +104,5 @@ def counting_sort(arr, maximum=None):
 
     for item in arr:
         sorted_arr[buckets[item]] = item
-        buckets[item] += 1        
-
-    print(arr, buckets, sorted_arr)
     return sorted_arr
     
-arr = [1, 1, 2, 2, 3, 3, 3, 4, 1, 1, 0]
-counting_sort(arr)
